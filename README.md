@@ -82,9 +82,9 @@ $ bash app_install.sh
 После развертывание в Yandex.Cloud
 установленные приложения доступны по следующим адресам:
 
- [Online Boutique](http://9melon.ru)
- [Prometheus](http://prometheus.9melon.ru)
- [Grafana](http://grafana.9melon.ru)
+ 1. [Online Boutique](http://9melon.ru)
+ 2. [Prometheus](http://prometheus.9melon.ru)
+ 3. [Grafana](http://grafana.9melon.ru)
 
 # Удаление кластера kubernetes и ресурсов в Yandex Cloud
 ```
