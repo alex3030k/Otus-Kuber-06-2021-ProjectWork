@@ -1,0 +1,78 @@
+replicas: 1
+
+ingress:
+  enabled: true
+  path: /
+  hosts:
+    - grafana.local
+    - grafana.9melon.ru
+  annotations: {
+      kubernetes.io/ingress.class: nginx     
+    }
+  pathType: ImplementationSpecific
+
+# Values file for the Grafana helm chart located
+# [here](https://github.com/grafana/helm-charts/tree/main/charts/grafana).
+
+# The Grafana helm chart doesn't define an `app` label
+podLabels:
+  app: ms-grafana
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 10Mi
+  limits:
+    cpu: 100m
+    memory: 128Mi
+
+adminUser: admin
+adminPassword: admin
+
+service:
+  type: NodePort
+  nodePort: 30000
+
+# Static datasources
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki.9melon.ru:80
+        jsonData:
+          maxLines: 1000
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus.9melon.ru:80
+        # TODO
+        #jsonData:
+        #  exemplarTraceIdDestinations:
+        #    - datasourceUid: jaeger
+        #      name: traceID
+
+dashboards:
+  default:
+    kuberdb:
+      gnetId: 315
+      datasource: Prometheus
+    lokidb:
+      gnetId: 12019
+      datasource: Loki  
+    #kuberdbx:
+    #  url: https://grafana.com/api/dashboards/315/revisions/3/download
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default      

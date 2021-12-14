@@ -1,0 +1,100 @@
+nodeExporter:
+  tolerations:
+  - effect: "NoSchedule"
+    operator: "Exists"
+
+server:
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.local
+      - prometheus.9melon.ru
+    paths:
+      - /
+    annotations: {
+      kubernetes.io/ingress.class: nginx     
+    }
+    pathType: ImplementationSpecific
+
+defaultRules:
+  annotations: {}
+  appNamespacesTarget: .*
+  create: true
+  labels: {}
+  rules:
+    alertmanager: true
+    etcd: true
+    general: true
+    k8s: true
+    kubeApiserver: true
+    kubeApiserverAvailability: true
+    kubeApiserverError: true
+    kubeApiserverSlos: true
+    kubePrometheusGeneral: true
+    kubePrometheusNodeAlerting: true
+    kubePrometheusNodeRecording: true
+    kubeScheduler: true
+    kubeStateMetrics: true
+    kubelet: true
+    kubernetesAbsent: true
+    kubernetesApps: true
+    kubernetesResources: true
+    kubernetesStorage: true
+    kubernetesSystem: true
+    network: true
+    node: true
+    prometheus: true
+    prometheusOperator: true
+    time: true
+  runbookUrl: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#
+# grafana:
+#   additionalDataSources:
+#   - access: proxy
+#     editable: true
+#     name: Loki
+#     orgId: 1
+#     type: loki
+#     url: http://loki.loki.svc:3100
+#     version: 1
+#   defaultDashboardsEnabled: true
+#   enabled: false
+#   env:
+#     GF_AUTH_GENERIC_OAUTH_CLIENT_ID: vault:secret/data/oidc/oauth#clientId
+#     GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: vault:secret/data/oidc/oauth#clientSecret
+#   grafana.ini:
+#     analytics:
+#       check_for_updates: true
+#     auth:
+#       auth.basic:
+#         enabled: false
+#       disable_login_form: true
+#     auth.generic_oauth:
+#       allow_sign_up: true
+#       allowed_domains: company.dom
+#       auth_url: https://oauth.clever.preprod.company.dom/auth
+#       client_id: oidc-auth-client
+#       client_secret: REDACTED
+#       enabled: true
+#       scopes: openid profile email offline_access
+#       token_url: https://oauth.clever.preprod.company.dom/token
+#     grafana_net:
+#       url: https://grafana.net
+#     log:
+#       mode: console
+#     metrics:
+#       enabled: true
+#     paths:
+#       data: /var/lib/grafana/data
+#       logs: /var/log/grafana
+#       plugins: /var/lib/grafana/plugins
+#       provisioning: /etc/grafana/provisioning
+#     plugins:
+#     - grafana-piechart-panel
+#     security:
+#       admin_user: ******@***.***
+#     server:
+#       domain: dashboard.clever.preprod.company.dom
+#       root_url: https://dashboard.clever.preprod.company.dom
+#     users:
+#       auto_assign_org_role: Editor
+  
